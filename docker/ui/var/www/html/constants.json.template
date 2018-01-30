@@ -1,0 +1,29 @@
+{
+    "baseURL": "${MGMT_API_URL}",
+    "portalTitle": "${PORTAL_TITLE}",
+    "managementTitle": "${MANAGEMENT_TITLE}",
+    "devMode": false,
+    "userCreationEnabled": false,
+    "documentation": {
+      "url": "https://docs.gravitee.io"
+    },
+    "portal": {
+      "entrypoint": "https://api.company.com",
+      "apikeyHeader": "X-Gravitee-Api-Key"
+    },
+    "theme": {
+      "name": "default",
+      "logo": "themes/assets/GRAVITEE_LOGO1-01.png",
+      "loader": "assets/gravitee_logo_anim.gif"
+    },
+    "support": {
+      "enabled": false
+    },
+    "rating": {
+      "enabled": false
+    },
+    "analytics": {
+      "enabled": false,
+      "trackingId": ""
+    }
+  }

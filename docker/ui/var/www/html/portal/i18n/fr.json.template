@@ -1,0 +1,156 @@
+{
+  "common": {
+    "copyToClipboard": "Copier dans le presse-papier",
+    "NANOSECONDS": "nanosecondes",
+    "MICROSECONDS": "microsecondes",
+    "MILLISECONDS": "millisecondes",
+    "SECONDS": "secondes",
+    "MINUTES": "minutes",
+    "HOURS": "heurs",
+    "DAYS": "jours",
+    "close": "Fermer",
+    "create": "Créer",
+    "cancel": "Annuler",
+    "ok": "OK",
+    "submit": "Soumettre",
+    "answer": "Répondre",
+    "ratings.none": "Aucune note",
+    "paging": {
+      "first": "Premier",
+      "previous": "Précédent",
+      "next": "Suivant",
+      "last": "Dernier"
+    }
+  },
+  "home": {
+    "title": "${TITLE_FR}",
+    "subtitle": "Portail développeur",
+    "version": "",
+    "pages": {
+      "title": "Documentation"
+    },
+    "apis": {
+      "search": "Filtrer APIs...",
+      "top": "APIs mises en avant",
+      "all": "Voir toutes les APIs"
+    }
+  },
+  "menu": {
+    "login": "Connexion",
+    "gallery": "Galerie d'APIs",
+    "documentation": "Documentation",
+    "profile": "Mon compte",
+    "management": "Administration",
+    "applications": "Mes applications",
+    "apis": "Mes APIs",
+    "logout": "Déconnexion",
+    "support": "Support"
+  },
+  "apis": {
+    "filter": "Filtrer APIs..."
+  },
+  "api": {
+    "version": "Version",
+    "endpoint": "Endpoint",
+    "owner": "Propriétaire",
+    "publishedAt": "Publié",
+    "subscription": {
+      "title": "Sélectionner une application pour souscrire",
+      "subtitle": "Vous êtes sur le point de souscrire au plan {{planName}} {{planInformation}}",
+      "placeholder": "Sélectionner une application...",
+      "action": "Souscrire pour l'application {{applicationName}}",
+      "keyless": "Ce plan est sans clé. Vous pouvez déjà l'utiliser sans souscription.",
+      "success": "Commençons à utiliser l'API \"{{apiName}}\" avec l'application \"{{applicationName}}\"!",
+      "sample": "Vous pouvez accéder à l'API avec la clé d'API suivante",
+      "validationInProgress": "En attente de validation pour l'application \"{{applicationName}}\"!",
+      "sampleNotValidated": "Une fois validé, vous pourrez accéder à votre API avec la clé d'API donnée ci-dessous :",
+      "successful": "L'application a souscrit au plan {{planName}} avec succés",
+      "apiKeyCopySuccess": "La clé d'API a bien été copiée dans le presse-papier",
+      "planInformation": "avec un quota de {{quotaLimit}} requêtes par {{quotaPeriodTime}} {{quotaPeriodTimeUnit}}"
+    },
+    "plan": {
+      "title": "Plans",
+      "subscribe": "Souscrire",
+      "manual": "Souscription soumise à validation",
+      "empty": {
+        "title": "Aucun plan sur cette API",
+        "message": "Une fois qu'un plan aura été créé, vous pourrez souscrire à cette API"
+      }
+    },
+    "documentation": {
+      "title": "Documentation",
+      "empty": {
+        "title": "Aucune documentation sur cette API",
+        "message": "Revenez vite, l'API sera complétée rapidement"
+      }
+    },
+    "metadata": {
+      "title": "Méta-données",
+      "name": "Nom",
+      "value": "Valeur"
+    },
+    "rating": {
+      "title": "Titre ou résumé pour votre commentaire",
+      "comment": "Commentaire",
+      "by": "Par",
+      "rate": "{{numberOfRatings}} note(s)",
+      "empty": {
+        "title": "Aucune note sur cette API",
+        "message": "Soyez le premier à la noter",
+        "rights.message": "Vous n'avez pas les droits requis pour noter cette API"
+      },
+      "messages": {
+        "1": "Je déteste cette API",
+        "2": "Je n'aime pas cette API",
+        "3": "J'aime cette API",
+        "4": "J'adore cette API",
+        "5": "Cette API est parfaite"
+      },
+      "successCreation": "Votre note a été soumise avec succès",
+      "successUpdate": "Votre note a été mise à jour avec succès",
+      "successDeletion": "Cette note a été supprimée avec succès",
+      "deletion": "Êtes-vous sûr de vouloir supprimer cette note ?",
+      "list": {
+        "title": "{{numberOfRatings}} note(s)"
+      },
+      "answer": {
+        "label": "{{numberOfAnswers}} réponse(s)",
+        "successCreation": "Votre réponse a été soumise avec succès",
+        "successDeletion": "Cette réponse a été supprimée avec succès",
+        "deletion": "Êtes-vous sûr de vouloir supprimer cette réponse ?",
+        "new": {
+          "label": "Répondre"
+        }
+      },
+      "summary": {
+        "title": "{{averageRate}} étoiles sur 5",
+        "link": "Consulter les {{numberOfRatings}} note(s)"
+      }
+    }
+  },
+  "applications": {
+    "empty": "Vous n'avez aucune application!",
+    "start": "Commençons par créer votre première application."
+  },
+  "application": {
+    "notFound": "Aucune application trouvée pour \"{{applicationName}}\"."
+  },
+  "support": {
+    "ticket": {
+      "title": "Création d'un ticket support",
+      "subject": "Sujet",
+      "content": "Contenu",
+      "api": "Sélectionnez une API",
+      "application": "Sélectionnez une application",
+      "copyToSender": "Recevoir une copie de l’email",
+      "successCreation": "Le ticket de support a été créé avec succès",
+      "notAuthenticated": {
+        "title": "Création d'un ticket support",
+        "message": "Afin de saisir un ticket, merci de vous connecter"
+      },
+      "userWithoutEmail": {
+        "message": "Vous ne pouvez pas saisir de ticket car vous n'avez pas d'email configuré sur votre compte"
+      }
+    }
+  }
+}

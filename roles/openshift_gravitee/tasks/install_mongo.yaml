@@ -1,0 +1,46 @@
+---
+
+- name: Create Mongo serviceaccount
+  oc_serviceaccount:
+    state: present
+    name: "{{ item }}"
+    namespace: "{{ l_openshift_gravitee_namespace }}"
+  with_items:
+    - mongo
+
+- name: Create Mongo persistent volume claim
+  oc_pvc:
+    namespace: "{{ l_openshift_gravitee_namespace }}"
+    name: "{{ gravitee_mongo_pvc_name }}"
+    access_modes: "{{ gravitee_mongo_pvc_access_modes }}"
+    volume_capacity: "{{ gravitee_mongo_pvc_size }}"
+    selector: "{{ gravitee_mongo_pvc_pv_selector }}"
+    storage_class_name: "{{ gravitee_mongo_sc_name }}"
+  when: gravitee_mongo_storage_type == 'pvc'
+
+- name: Create Mongo service
+  oc_service:
+    state: present
+    name: "{{ item.name }}"
+    namespace: "{{ l_openshift_gravitee_namespace }}"
+    selector:
+      app: mongo
+    labels:
+      name: "{{ item.name }}"
+    ports:
+      - port: 27017
+  with_items:
+    - name: mongo
+
+- name: Set Mongo template
+  template:
+    src: mongo/mongo.yml.j2
+    dest: "{{ tempdir }}/templates/mongo.yaml"
+  vars:
+    namespace: "{{ l_openshift_gravitee_namespace }}"
+
+- name: Set Mongo deployment
+  command: >
+    {{ oc }} apply
+    -f "{{ tempdir }}/templates/mongo.yaml"
+    -n {{ l_openshift_gravitee_namespace }}

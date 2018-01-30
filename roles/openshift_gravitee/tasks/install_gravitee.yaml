@@ -1,0 +1,147 @@
+---
+
+- name: create Gravitee serviceaccounts
+  oc_serviceaccount:
+    state: present
+    name: "{{ item }}"
+    namespace: "{{ l_openshift_gravitee_namespace }}"
+  with_items:
+    - gravitee-api
+    - gravitee-ui
+    - gateway
+
+# SERVICES
+- name: Create Gateway service
+  oc_service:
+    state: present
+    name: "{{ item.name }}"
+    namespace: "{{ l_openshift_gravitee_namespace }}"
+    selector:
+      app: gateway
+    labels:
+      name: "{{ item.name }}"
+    ports:
+      - port: 8082
+  with_items:
+    - name: gateway
+
+- name: Create Gravitee API Management service
+  oc_service:
+    state: present
+    name: "{{ item.name }}"
+    namespace: "{{ l_openshift_gravitee_namespace }}"
+    selector:
+      app: gravitee-api
+    labels:
+      name: "{{ item.name }}"
+    ports:
+      - port: 8083
+  with_items:
+    - name: gravitee-api-management
+
+- name: Create Gravitee UI HTTP service
+  oc_service:
+    state: present
+    name: "{{ item.name }}"
+    namespace: "{{ l_openshift_gravitee_namespace }}"
+    selector:
+      app: gravitee-ui
+    labels:
+      name: "{{ item.name }}"
+    ports:
+      - port: 8080
+  with_items:
+    - name: gravitee-ui-http
+
+- name: Create Gravitee UI HTTPS service
+  oc_service:
+    state: present
+    name: "{{ item.name }}"
+    namespace: "{{ l_openshift_gravitee_namespace }}"
+    selector:
+      app: gravitee-ui
+    labels:
+      name: "{{ item.name }}"
+    ports:
+      - port: 8443
+  with_items:
+    - name: gravitee-ui-https
+
+# ROUTES
+- name: create Gravitee UI route
+  oc_route:
+    state: present
+    name: "{{ item.name }}"
+    host: "{{ item.host }}"
+    namespace: "{{ l_openshift_gravitee_namespace }}"
+    service_name: "{{ item.name }}"
+    tls_termination: edge
+  with_items:
+    - name: gravitee-ui-http
+      host: "{{ gravitee_host }}"
+
+- name: Set Gravitee API route template
+  template:
+    src: gravitee/routes/gravitee-api.route.yml.j2
+    dest: "{{ tempdir }}/templates/gravitee-api.route.yaml"
+  vars:
+    namespace: "{{ l_openshift_gravitee_namespace }}"
+
+- name: Set Gravitee gateway route template
+  template:
+    src: gravitee/routes/gravitee-gateway.route.yml.j2
+    dest: "{{ tempdir }}/templates/gravitee-gateway.route.yaml"
+  vars:
+    namespace: "{{ l_openshift_gravitee_namespace }}"
+
+- name: Deploy API HTTP route
+  command: >
+    {{ oc }} apply
+    -f "{{ tempdir }}/templates/gravitee-api.route.yaml"
+    -n {{ l_openshift_gravitee_namespace }}
+
+- name: Deploy Gateway route
+  command: >
+    {{ oc }} apply
+    -f "{{ tempdir }}/templates/gravitee-gateway.route.yaml"
+    -n {{ l_openshift_gravitee_namespace }}
+
+# DEPLOYMENTS
+- name: Set Gravitee API template
+  template:
+    src: gravitee/deployments/gravitee-api.yml.j2
+    dest: "{{ tempdir }}/templates/gravitee-api.yaml"
+  vars:
+    namespace: "{{ l_openshift_gravitee_namespace }}"
+
+- name: Set Gravitee UI template
+  template:
+    src: gravitee/deployments/gravitee-ui.yml.j2
+    dest: "{{ tempdir }}/templates/gravitee-ui.yaml"
+  vars:
+    namespace: "{{ l_openshift_gravitee_namespace }}"
+
+- name: Deploy API
+  command: >
+    {{ oc }} apply
+    -f "{{ tempdir }}/templates/gravitee-api.yaml"
+    -n {{ l_openshift_gravitee_namespace }}
+
+- name: Deploy UI
+  command: >
+    {{ oc }} apply
+    -f "{{ tempdir }}/templates/gravitee-ui.yaml"
+    -n {{ l_openshift_gravitee_namespace }}
+
+- name: Set Gravitee Gateway template
+  template:
+    src: gravitee/deployments/gravitee-gateway.yml.j2
+    dest: "{{ tempdir }}/templates/gravitee-gateway.yaml"
+  vars:
+    namespace: "{{ l_openshift_gravitee_namespace }}"
+
+- name: Deploy Gateway
+  command: >
+    {{ oc }} apply
+    -f "{{ tempdir }}/templates/gravitee-gateway.yaml"
+    -n {{ l_openshift_gravitee_namespace }}

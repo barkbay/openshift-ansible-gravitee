@@ -1,0 +1,50 @@
+---
+
+- name: Create Elastic serviceaccount
+  oc_serviceaccount:
+    state: present
+    name: "{{ item }}"
+    namespace: "{{ l_openshift_gravitee_namespace }}"
+  with_items:
+    - elastic
+
+- name: Create Elastic REST service
+  oc_service:
+    state: present
+    name: "{{ item.name }}"
+    namespace: "{{ l_openshift_gravitee_namespace }}"
+    selector:
+      app: elastic
+    labels:
+      name: "{{ item.name }}"
+    ports:
+      - port: 9200
+  with_items:
+    - name: elastic-rest
+
+- name: Create Elastic node service
+  oc_service:
+    state: present
+    name: "{{ item.name }}"
+    namespace: "{{ l_openshift_gravitee_namespace }}"
+    selector:
+      app: elastic
+    labels:
+      name: "{{ item.name }}"
+    ports:
+      - port: 9300
+  with_items:
+    - name: elastic-node
+
+- name: Set Elastic template
+  template:
+    src: elastic/elastic.yml.j2
+    dest: "{{ tempdir }}/templates/elastic.yaml"
+  vars:
+    namespace: "{{ l_openshift_gravitee_namespace }}"
+
+- name: Set Elastic deployment
+  command: >
+    {{ oc }} apply
+    -f "{{ tempdir }}/templates/elastic.yaml"
+    -n {{ l_openshift_gravitee_namespace }}

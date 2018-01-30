@@ -1,0 +1,50 @@
+apiVersion: apps.openshift.io/v1
+kind: DeploymentConfig
+metadata:
+  labels:
+    app: elastic
+  name: elastic
+  namespace: {{ l_openshift_gravitee_namespace }}
+spec:
+  replicas: 1
+  selector:
+    deploymentconfig: elastic
+  strategy:
+    activeDeadlineSeconds: 21600
+    resources: {}
+    type: Recreate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: elastic
+        deploymentconfig: elastic
+    spec:
+      containers:
+        - image: {{ l_elastic_image }}
+          imagePullPolicy: Always
+          name: elastic
+          ports:
+            - containerPort: 9200
+              protocol: TCP
+            - containerPort: 9300
+              protocol: TCP
+          volumeMounts:
+          - mountPath: /data
+            name: elastic-data
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+      volumes:
+        - name: elastic-data
+          emptyDir: {}
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      serviceAccount: elastic
+      serviceAccountName: elastic
+      terminationGracePeriodSeconds: 30
+  test: false
+  triggers:
+    - type: ConfigChange

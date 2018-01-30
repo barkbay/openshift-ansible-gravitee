@@ -1,0 +1,50 @@
+---
+
+- set_fact:
+    l_openshift_gravitee_namespace: "{{ openshift_gravitee_namespace | default('gravitee') }}"
+    openshift_gravitee_node_selector: "{{ openshift_gravitee_node_selector | default('') }}"
+    oc: "{{ openshift_client_binary | default('/usr/bin/oc') }}"
+
+- set_fact:
+    l_mongo_image: "{{ mongo_image | default('docker.io/library/mongo:3.6.2') }}"
+    l_elastic_image: "{{ elastic_image | default('docker.io/barkbay/elasticsearch:5.4.3.r0') }}"
+    l_gravitee_api_image: "{{ gravitee_api_image | default('docker.io/barkbay/management-api:1.12.5.r0') }}"
+    l_gravitee_ui_image: "{{ gravitee_ui_image | default('docker.io/barkbay/management-ui:1.12.5.r0') }}"
+    l_gravitee_gateway_image: "{{ gravitee_gateway_image | default('docker.io/barkbay/gateway:1.12.5.r0') }}"
+
+- name: Create temp directory for doing work in on target
+  command: mktemp -td openshift-ansible-gravitee-XXXXXX
+  register: mktemp
+  changed_when: False
+
+- set_fact:
+    tempdir: "{{ mktemp.stdout }}"
+
+- name: Create templates subdirectory
+  file:
+    state: directory
+    path: "{{ tempdir }}/templates"
+    mode: 0755
+  changed_when: False
+
+- name: Create Gravitee project
+  oc_project:
+    state: present
+    name: "{{ l_openshift_gravitee_namespace }}"
+    node_selector: "{{ openshift_gravitee_node_selector | lib_utils_oo_selector_to_string_list() }}"
+    description: Gravitee API Management
+
+- include_tasks: install_mongo.yaml
+  when: gravitee_mongo_state == 'present'
+
+- include_tasks: install_elastic.yaml
+  when: gravitee_elastic_state == 'present'
+
+- include_tasks: install_gravitee.yaml
+  when: gravitee_state == 'present'
+
+- name: Delete temp directory
+  file:
+    name: "{{ tempdir }}"
+    state: absent
+  changed_when: False

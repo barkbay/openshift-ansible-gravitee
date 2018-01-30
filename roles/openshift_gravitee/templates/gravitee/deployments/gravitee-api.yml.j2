@@ -1,0 +1,75 @@
+apiVersion: apps.openshift.io/v1
+kind: DeploymentConfig
+metadata:
+  labels:
+    app: gravitee-api
+  name: gravitee-api
+  namespace: {{ l_openshift_gravitee_namespace }}
+spec:
+  replicas: 1
+  selector:
+    deploymentconfig: gravitee-api
+  strategy:
+    activeDeadlineSeconds: 21600
+    resources: {}
+    rollingParams:
+      intervalSeconds: 1
+      maxSurge: 25%
+      maxUnavailable: 25%
+      timeoutSeconds: 600
+      updatePeriodSeconds: 1
+    type: Rolling
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: gravitee-api
+        deploymentconfig: gravitee-api
+    spec:
+      containers:
+        - image: {{ l_gravitee_api_image }}
+          imagePullPolicy: Always
+          name: gravitee-api
+          ports:
+            - containerPort: 8083
+              protocol: TCP
+            - containerPort: 18083
+              protocol: TCP
+          livenessProbe:
+            tcpSocket:
+              port: 8083
+            initialDelaySeconds: 90
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 3
+          readinessProbe:
+            tcpSocket:
+              port: 8083
+            initialDelaySeconds: 30
+            periodSeconds: 5
+            successThreshold: 1
+            failureThreshold: 24
+          volumeMounts:
+          - mountPath: /opt/graviteeio-management-api/plugins/.work
+            name: gravitee-work
+          - mountPath: /opt/graviteeio-management-api/logs
+            name: gravitee-logs
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+      volumes:
+        - name: gravitee-work
+          emptyDir:
+            medium: Memory
+        - name: gravitee-logs
+          emptyDir: {}
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      serviceAccount: gravitee-api
+      serviceAccountName: gravitee-api
+      terminationGracePeriodSeconds: 30
+  test: false
+  triggers:
+    - type: ConfigChange

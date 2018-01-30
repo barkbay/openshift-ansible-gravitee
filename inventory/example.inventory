@@ -1,0 +1,40 @@
+[openshift]
+192.168.56.27 # An Openshift master
+
+[openshift:vars]
+ansible_ssh_user=vagrant
+ansible_become=yes
+
+gravitee_host=api.example.com
+
+#gravitee_gateway_image=192.168.56.1:5000/barkbay/gateway:1.12.5.r0
+#gravitee_ui_image=192.168.56.1:5000/barkbay/management-ui:1.12.5.r0
+#gravitee_api_image=192.168.56.1:5000/barkbay/management-api:1.12.5.r0
+#elastic_image=192.168.56.1:5000/barkbay/elasticsearch:5.4.3.r0
+#mongo_image=192.168.56.1:5000/library/mongo:3.6.2
+
+#TODO Specify an exact container image tag to install or configure.
+#TODO gravitee_image_tag=v1.12.5
+
+# Choose components to install
+gravitee_mongo_state=present
+gravitee_elastic_state=present
+gravitee_state=present
+
+# MongoDB storage
+# One of ['emptydir', 'pvc']
+gravitee_mongo_storage_type="emptydir"
+gravitee_mongo_pvc_name=mongo
+gravitee_mongo_pvc_size="{{ gravitee_mongostorage_volume_size | default('10Gi') }}"
+gravitee_mongo_pvc_access_modes=[ReadWriteOnce]
+gravitee_mongo_pvc_pv_selector="{{ gravitee_mongostorage_labels | default({}) }}"
+gravitee_mongosc_name="{{ gravitee_mongostorage_class | default(None) }}"
+
+# ElasticSearch storage
+# One of ['emptydir', 'pvc']
+gravitee_elasticstorage_type="emptydir"
+gravitee_elastic_pvc_name=mongo
+gravitee_elastic_pvc_size="{{ gravitee_mongostorage_volume_size | default('10Gi') }}"
+gravitee_elastic_pvc_access_modes=[ReadWriteOnce]
+gravitee_elastic_pvc_pv_selector="{{ gravitee_mongostorage_labels | default({}) }}"
+gravitee_elasticsc_name="{{ gravitee_mongostorage_class | default(None) }}"

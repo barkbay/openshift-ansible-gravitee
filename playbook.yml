@@ -1,0 +1,30 @@
+# ansible-playbook playbook.yml --extra-vars "oc_token=`oc whoami -t`"
+---
+- name: Gravitee Install Checkpoint Start
+  hosts: openshift
+  gather_facts: false
+  tasks:
+  - name: Set Gravitee install 'In Progress'
+    run_once: true
+    set_stats:
+      data:
+        installer_phase_gravitee:
+          status: "In Progress"
+          start: "{{ lookup('pipe', 'date +%Y%m%d%H%M%SZ') }}"
+
+- name: Gravitee
+  hosts: openshift
+  roles:
+  - role: openshift_gravitee
+
+- name: Gravitee Install Checkpoint End
+  hosts: openshift
+  gather_facts: false
+  tasks:
+  - name: Set Gravitee install 'Complete'
+    run_once: true
+    set_stats:
+      data:
+        installer_phase_gravitee:
+          status: "Complete"
+          end: "{{ lookup('pipe', 'date +%Y%m%d%H%M%SZ') }}"
