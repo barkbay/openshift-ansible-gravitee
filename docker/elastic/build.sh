@@ -1,7 +1,7 @@
 #!/bin/bash
 
 VERSION=5.4.3.r0
-DESTINATION=${DESTINATION:-docker.io/barkbay}
+DESTINATION=${DESTINATION:-docker.io}
 IMAGE=barkbay/elasticsearch:${VERSION}
 
 docker build . -t ${IMAGE}
