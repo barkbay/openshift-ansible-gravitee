@@ -6,7 +6,7 @@ Gravitee.io is a flexible, lightweight and blazing-fast open source API.
 
 This repository contains :
 
-* An Ansible playbook an role to install Gravitee on Openshift
+* An Ansible playbook and a role to install Gravitee on Openshift
 
 * A sample inventory
 
