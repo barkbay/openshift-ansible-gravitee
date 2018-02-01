@@ -1,4 +1,3 @@
-# ansible-playbook playbook.yml --extra-vars "oc_token=`oc whoami -t`"
 ---
 - name: Gravitee Install Checkpoint Start
   hosts: openshift
