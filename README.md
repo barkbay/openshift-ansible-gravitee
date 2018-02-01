@@ -36,6 +36,4 @@ Please note that for the moment the role uses only **one host** :
 
 ## TODO :
 
-* Gateways should be deployed with [statefulset](https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/)
-
-* There is no cpu or memory quota/limit
+Please check [issues](https://github.com/barkbay/openshift-ansible-gravitee/issues)
