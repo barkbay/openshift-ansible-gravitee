@@ -24,7 +24,7 @@ Change any of the parameters to match your needs, especially `gravitee_host` use
 
 Please note that for the moment the role uses only **one host** :
 
-* UI can bed accessed with `https://{{ gravitee_host }}`
+* UI can be accessed with `https://{{ gravitee_host }}`
 * Management service is accessed with `https://{{ gravitee_host }}/management`
 * Gateway can be accessed through the `https://{{ gravitee_host }}/v1/myapi` **(yes it means that context path must start with `/v1`, I will fix it)**
 
