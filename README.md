@@ -20,13 +20,13 @@ This repository contains :
 
 In the `inventory/example.inventory` set the hostname or IP of a Openshift master.
 
-Change any of the parameters to match your needs, especially `gravity_host` used to create the routes and expose the services.
+Change any of the parameters to match your needs, especially `gravitee_host` used to create the routes and expose the services.
 
 Please note that for the moment the role uses only **one host** :
 
-* UI can bed accessed with `https://{{ gravity_host }}`
-* Management service is accessed with `https://{{ gravity_host }}/management`
-* Gateway can be accessed through the `https://{{ gravity_host }}/v1/myapi` **(yes it means that context path must start with `/v1`, I will fix it)**
+* UI can bed accessed with `https://{{ gravitee_host }}`
+* Management service is accessed with `https://{{ gravitee_host }}/management`
+* Gateway can be accessed through the `https://{{ gravitee_host }}/v1/myapi` **(yes it means that context path must start with `/v1`, I will fix it)**
 
 ## Run the playbook
 
