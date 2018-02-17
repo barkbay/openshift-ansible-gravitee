@@ -1,0 +1,81 @@
+apiVersion: apps.openshift.io/v1
+kind: DeploymentConfig
+metadata:
+  labels:
+    app: gravitee-am-ui
+  name: gravitee-am-ui
+  namespace: {{ l_openshift_gravitee_namespace }}
+spec:
+  replicas: 1
+  selector:
+    deploymentconfig: gravitee-am-ui
+  strategy:
+    activeDeadlineSeconds: 21600
+    resources: {}
+    rollingParams:
+      intervalSeconds: 1
+      maxSurge: 25%
+      maxUnavailable: 25%
+      timeoutSeconds: 600
+      updatePeriodSeconds: 1
+    type: Rolling
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: gravitee-am-ui
+        deploymentconfig: gravitee-am-ui
+    spec:
+      containers:
+        - env :
+            - name : AM_GATEWAY_HOST
+              value: 'https://am.{{ gravitee_host }}'
+          image: {{ l_gravitee_am_webui_image }}
+          imagePullPolicy: Always
+          name: gravitee-am-ui
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 60
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            successThreshold: 1
+            failureThreshold: 24
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          ports:
+            - containerPort: 8443
+              protocol: TCP
+          volumeMounts:
+          - mountPath: /var/cache/nginx
+            name: nginx-cache
+          - mountPath: /var/run
+            name: var-run
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+      volumes:
+        - name: nginx-cache
+          emptyDir:
+            medium: Memory
+        - name: var-run
+          emptyDir: {}
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      serviceAccount: gravitee-am-ui
+      serviceAccountName: gravitee-am-ui
+      terminationGracePeriodSeconds: 30
+  test: false
+  triggers:
+    - type: ConfigChange

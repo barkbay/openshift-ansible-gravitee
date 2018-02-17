@@ -10,6 +10,8 @@
     l_elastic_image: "{{ elastic_image | default('docker.io/barkbay/elasticsearch:5.4.3.r0') }}"
     l_gravitee_api_image: "{{ gravitee_api_image | default('docker.io/barkbay/management-api:1.12.5.r0') }}"
     l_gravitee_ui_image: "{{ gravitee_ui_image | default('docker.io/barkbay/management-ui:1.12.5.r0') }}"
+    l_gravitee_am_webui_image: "{{ gravitee_am_webui_image | default('docker.io/barkbay/am-webui:1.6.2.r0') }}"
+    l_gravitee_am_gateway_image: "{{ gravitee_am_gateway_image | default('docker.io/barkbay/am-gateway:1.6.2.r0') }}"
     l_gravitee_gateway_image: "{{ gravitee_gateway_image | default('docker.io/barkbay/gateway:1.12.5.r0') }}"
 
 - name: Create temp directory for doing work in on target

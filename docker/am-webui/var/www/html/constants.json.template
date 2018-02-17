@@ -1,0 +1,13 @@
+{
+  "portalTitle": "Access Management",
+  "baseURL": "${AM_GATEWAY_HOST}/management",
+  "authentication": {
+    "oauth2": {
+      "authorize": "${AM_GATEWAY_HOST}/admin/oauth/authorize",
+      "userInfo": "${AM_GATEWAY_HOST}/admin/userinfo",
+      "clientId": "admin",
+      "redirectUri": "${AM_GATEWAY_HOST}/oauth/callback",
+      "logoutUri": "${AM_GATEWAY_HOST}/admin/logout?target_url=http://localhost:4200/logout/callback"
+    }
+  }
+}

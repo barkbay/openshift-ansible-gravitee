@@ -8,13 +8,22 @@
       "url": "https://docs.gravitee.io"
     },
     "portal": {
-      "entrypoint": "https://api.company.com",
+      "entrypoint": "https://api.example.com.192.168.56.27.nip.io/",
       "apikeyHeader": "X-Gravitee-Api-Key"
     },
     "theme": {
       "name": "default",
       "logo": "themes/assets/GRAVITEE_LOGO1-01.png",
       "loader": "assets/gravitee_logo_anim.gif"
+    },
+    "authentication": {
+      "oauth2": {
+        "clientId": "gravitee-test",
+        "name": "Openshift",
+        "color": "#0076b4",
+        "authorizationEndpoint": "https://192.168.56.27:8443/oauth/authorize",
+        "scope": ["user:info"]
+      }
     },
     "support": {
       "enabled": false

@@ -1,0 +1,47 @@
+apiVersion: v1
+kind: Route
+metadata:
+  name: gravitee-am-admin
+  namespace: {{ l_openshift_gravitee_namespace }}
+spec:
+  host: am.{{ gravitee_host }}
+  path: "/admin"
+  tls:
+    termination: edge
+  to:
+    kind: Service
+    name: am-gateway
+    weight: 100
+  wildcardPolicy: None
+---
+apiVersion: v1
+kind: Route
+metadata:
+  name: gravitee-am-management
+  namespace: {{ l_openshift_gravitee_namespace }}
+spec:
+  host: am.{{ gravitee_host }}
+  path: "/management"
+  tls:
+    termination: edge
+  to:
+    kind: Service
+    name: am-gateway
+    weight: 100
+  wildcardPolicy: None
+---
+apiVersion: v1
+kind: Route
+metadata:
+  name: gravitee-am-logout
+  namespace: {{ l_openshift_gravitee_namespace }}
+spec:
+  host: am.{{ gravitee_host }}
+  path: "/logout"
+  tls:
+    termination: edge
+  to:
+    kind: Service
+    name: am-gateway
+    weight: 100
+  wildcardPolicy: None
