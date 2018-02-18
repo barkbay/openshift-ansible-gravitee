@@ -1,4 +1,4 @@
-FROM graviteeio/gateway:1.12.5
+FROM graviteeio/gateway:1.13.2
 
 COPY graviteeio-gateway /opt/graviteeio-gateway
 

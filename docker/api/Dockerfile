@@ -1,4 +1,4 @@
-FROM graviteeio/management-api:1.12.5
+FROM graviteeio/management-api:1.13.2
 
 COPY graviteeio-management-api /opt/graviteeio-management-api
 

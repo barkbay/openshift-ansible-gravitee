@@ -1,6 +1,6 @@
 #!/bin/bash -x
 
-VERSION=1.12.5.r0
+VERSION=1.13.2.r0
 DESTINATION=${DESTINATION:-docker.io}
 IMAGE=barkbay/management-api:${VERSION}
 
