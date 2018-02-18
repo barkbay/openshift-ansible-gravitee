@@ -1,4 +1,4 @@
-FROM graviteeio/management-ui:1.12.5
+FROM graviteeio/management-ui:1.13.2
 
 RUN /bin/sed -i -e 's/listen 443/listen 8443/g' /etc/nginx/conf.d/default.conf && \
     /bin/sed -i -e 's/listen 80 default_server/listen 8080 default_server/g' /etc/nginx/conf.d/default.conf && \

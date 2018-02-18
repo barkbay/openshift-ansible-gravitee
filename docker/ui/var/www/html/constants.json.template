@@ -8,7 +8,7 @@
       "url": "https://docs.gravitee.io"
     },
     "portal": {
-      "entrypoint": "https://api.example.com.192.168.56.27.nip.io/",
+      "entrypoint": "https://api.example.com.192.168.56.27.nip.io",
       "apikeyHeader": "X-Gravitee-Api-Key"
     },
     "theme": {
@@ -26,7 +26,7 @@
       }
     },
     "support": {
-      "enabled": false
+      "enabled": true
     },
     "rating": {
       "enabled": false
